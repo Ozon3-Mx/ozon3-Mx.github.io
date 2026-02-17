@@ -1,0 +1,163 @@
+/* Ozon3 App Styles */
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection color */
+::selection {
+  background: rgba(0, 194, 181, 0.3);
+  color: #1A2B2A;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F5F7FA;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00C2B5;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00A99D;
+}
+
+/* Animation utilities */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(0, 194, 181, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(0, 194, 181, 0.6);
+  }
+}
+
+@keyframes sonar-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 194, 181, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 20px rgba(0, 194, 181, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 194, 181, 0);
+  }
+}
+
+.animate-slide-up {
+  animation: slideInUp 0.8s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.float-animation {
+  animation: float 4s ease-in-out infinite;
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.sonar-pulse {
+  animation: sonar-pulse 2s ease-out infinite;
+}
+
+/* Glass effect */
+.glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* Hover lift effect */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 194, 181, 0.15);
+}
+
+/* Shadow utilities */
+.shadow-soft {
+  box-shadow: 0 4px 20px rgba(0, 194, 181, 0.1);
+}
+
+.shadow-glow {
+  box-shadow: 0 0 40px rgba(0, 194, 181, 0.3);
+}
+
+/* Gradient backgrounds */
+.bg-gradient-teal {
+  background: linear-gradient(135deg, #00C2B5 0%, #00A99D 100%);
+}
+
+.bg-gradient-radial {
+  background: radial-gradient(ellipse at center top, #E0F7F5 0%, #FFFFFF 60%);
+}
+
+/* Text gradient */
+.text-gradient {
+  background: linear-gradient(135deg, #00C2B5 0%, #00A99D 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Button magnetic effect placeholder */
+.btn-magnetic {
+  transition: transform 0.2s ease-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .float-animation {
+    animation: none;
+  }
+}
