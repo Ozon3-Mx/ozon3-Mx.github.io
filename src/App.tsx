@@ -14,12 +14,164 @@ import {
   Clock,
   Zap,
   MessageCircle,
-  ExternalLink
+  ExternalLink,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import './App.css'
+
+// --- DATOS Y CONFIGURACIÓN ---
+// Información centralizada para fácil edición
+
+const CONTACT_INFO = {
+  phone: '+52 556 912 3847',
+  whatsapp_display: '+52 123 456 7890',
+  whatsapp_link: '525569123847', // Número real para enlace
+  email: 'info@ozon3.com'
+}
+
+const BENEFICIOS = [
+  {
+    icon: <Wind className="w-10 h-10 text-[#00C2B5]" />,
+    titulo: 'Adiós Malos Olores',
+    descripcion: 'Elimina olores persistentes de tabaco, mascotas, cocina y humedad de forma natural y efectiva.',
+    color: 'from-[#E0F7F5] to-[#F5FFFE]'
+  },
+  {
+    icon: <Droplets className="w-10 h-10 text-[#00C2B5]" />,
+    titulo: 'Desinfección de Alimentos',
+    descripcion: 'Lava frutas y verduras con agua ozonizada para eliminar pesticidas, bacterias y contaminantes.',
+    color: 'from-[#E8F8F6] to-[#F5FFFE]'
+  },
+  {
+    icon: <Leaf className="w-10 h-10 text-[#00C2B5]" />,
+    titulo: 'Menos Químicos',
+    descripcion: 'Reduce drásticamente el uso de cloro y productos químicos en tu hogar. 100% ecológico.',
+    color: 'from-[#E0F7F5] to-[#F0FAF9]'
+  }
+]
+
+const PRODUCTOS = [
+  {
+    id: 'basic',
+    nombre: 'Ozon3 Basic',
+    potencia: '10W',
+    descripcion: 'El esencial para autos y closets. Control manual, 1000mg/h. Incluye kit para agua.',
+    precio: '$499',
+    caracteristicas: ['1000 mg/h', 'Control Manual', 'Kit Agua Incluido', 'Portátil'],
+    imagen: '/product-basic.png',
+    popular: false
+  },
+  {
+    id: 'timer',
+    nombre: 'Ozon3 Timer Pro',
+    potencia: '20W',
+    descripcion: 'Con Temporizador Inteligente. Programa tus ciclos de limpieza y despreocúpate. Ideal para habitaciones y desinfeccion de verduras.',
+    precio: '$799',
+    caracteristicas: ['Temporizador Digital', 'Programable', '2000 mg/h', 'Pantalla LED'],
+    imagen: '/product-timer.png',
+    popular: true
+  },
+  {
+    id: 'hydro',
+    nombre: 'Ozon3 HydroFlow',
+    potencia: '25W',
+    descripcion: 'Para Flujo de Agua. Conexión directa a lavadoras y mangueras. Lava ropa en frío y desinfecta pisos.',
+    precio: '$7199',
+    caracteristicas: ['Flujo Continuo', 'Conexión Directa', '3000 mg/h', 'Uso Profesional'],
+    imagen: '/product-hydro.png',
+    popular: false
+  }
+]
+
+const SEGURIDAD_ITEMS = [
+  'Úsalo siempre en espacios vacíos',
+  'Ventila después de cada ciclo',
+  'No mezclar con aromatizantes',
+  'Mantén alejado del alcance de niños',
+  'No respires directamente el ozono'
+]
+
+// Imágenes para el carrusel (asegúrate de tenerlas en public/)
+const CAROUSEL_IMAGES = [
+  '/carrusel-1.jpg',
+  '/carrusel-2.jpg',
+  '/carrusel-3.jpg'
+]
+
+// --- COMPONENTES AUXILIARES ---
+
+// Componente de Carrusel Personalizado
+const ImageCarousel = () => {
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  // Autoplay
+  useEffect(() => {
+    const timer = setInterval(() => {
+      nextSlide()
+    }, 5000) // Cambia cada 5 segundos
+    return () => clearInterval(timer)
+  }, [currentIndex])
+
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev === CAROUSEL_IMAGES.length - 1 ? 0 : prev + 1))
+  }
+
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev === 0 ? CAROUSEL_IMAGES.length - 1 : prev - 1))
+  }
+
+  return (
+    <div className="relative w-full h-[400px] rounded-3xl overflow-hidden shadow-xl group">
+      {/* Imágenes */}
+      <div 
+        className="flex transition-transform duration-500 ease-out h-full"
+        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+      >
+        {CAROUSEL_IMAGES.map((img, index) => (
+          <img 
+            key={index}
+            src={img}
+            alt={`Uso seguro ${index + 1}`}
+            className="w-full h-full object-cover flex-shrink-0"
+          />
+        ))}
+      </div>
+
+      {/* Botones de Navegación (visibles al hacer hover) */}
+      <button 
+        onClick={prevSlide}
+        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white text-[#00C2B5]"
+      >
+        <ChevronLeft size={24} />
+      </button>
+      <button 
+        onClick={nextSlide}
+        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white text-[#00C2B5]"
+      >
+        <ChevronRight size={24} />
+      </button>
+
+      {/* Indicadores (puntos) */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+        {CAROUSEL_IMAGES.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentIndex(index)}
+            className={`w-2.5 h-2.5 rounded-full transition-all ${
+              currentIndex === index ? 'bg-white w-6' : 'bg-white/50'
+            }`}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// --- COMPONENTE PRINCIPAL ---
 
 function App() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -27,14 +179,14 @@ function App() {
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set())
   const heroRef = useRef<HTMLElement>(null)
 
+  // Manejo del scroll para navbar transparente/sólido
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
-    }
+    const handleScroll = () => setIsScrolled(window.scrollY > 50)
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Observer para animaciones al hacer scroll
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -63,76 +215,14 @@ function App() {
   }
 
   const openWhatsApp = (message: string = '') => {
-    const phoneNumber = '525569123847' // Replace with actual number
-    const encodedMessage = encodeURIComponent(message || 'Hola, me interesa cotizar un generador de ozono Ozon3')
-    window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank')
+    const text = encodeURIComponent(message || 'Hola, me interesa cotizar un generador de ozono Ozon3')
+    window.open(`https://wa.me/${CONTACT_INFO.whatsapp_link}?text=${text}`, '_blank')
   }
-
-  const beneficios = [
-    {
-      icon: <Wind className="w-10 h-10 text-[#00C2B5]" />,
-      titulo: 'Adiós Malos Olores',
-      descripcion: 'Elimina olores persistentes de tabaco, mascotas, cocina y humedad de forma natural y efectiva.',
-      color: 'from-[#E0F7F5] to-[#F5FFFE]'
-    },
-    {
-      icon: <Droplets className="w-10 h-10 text-[#00C2B5]" />,
-      titulo: 'Desinfección de Alimentos',
-      descripcion: 'Lava frutas y verduras con agua ozonizada para eliminar pesticidas, bacterias y contaminantes.',
-      color: 'from-[#E8F8F6] to-[#F5FFFE]'
-    },
-    {
-      icon: <Leaf className="w-10 h-10 text-[#00C2B5]" />,
-      titulo: 'Menos Químicos',
-      descripcion: 'Reduce drásticamente el uso de cloro y productos químicos en tu hogar. 100% ecológico.',
-      color: 'from-[#E0F7F5] to-[#F0FAF9]'
-    }
-  ]
-
-  const productos = [
-    {
-      id: 'basic',
-      nombre: 'Ozon3 Basic',
-      potencia: '10W',
-      descripcion: 'El esencial para autos y closets. Control manual, 1000mg/h. Incluye kit para agua.',
-      precio: '$499',
-      caracteristicas: ['1000 mg/h', 'Control Manual', 'Kit Agua Incluido', 'Portátil'],
-      imagen: '/product-basic.png',
-      popular: false
-    },
-    {
-      id: 'timer',
-      nombre: 'Ozon3 Timer Pro',
-      potencia: '20W',
-      descripcion: 'Con Temporizador Inteligente. Programa tus ciclos de limpieza y despreocúpate. Ideal para habitaciones y desinfeccion de verduras.',
-      precio: '$799',
-      caracteristicas: ['Temporizador Digital', 'Programable', '2000 mg/h', 'Pantalla LED'],
-      imagen: '/product-timer.png',
-      popular: true
-    },
-    {
-      id: 'hydro',
-      nombre: 'Ozon3 HydroFlow',
-      potencia: '25W',
-      descripcion: 'Para Flujo de Agua. Conexión directa a lavadoras y mangueras. Lava ropa en frío y desinfecta pisos.',
-      precio: '$7199',
-      caracteristicas: ['Flujo Continuo', 'Conexión Directa', '3000 mg/h', 'Uso Profesional'],
-      imagen: '/product-hydro.png',
-      popular: false
-    }
-  ]
-
-  const seguridadItems = [
-    'Úsalo siempre en espacios vacíos',
-    'Ventila después de cada ciclo',
-    'No mezclar con aromatizantes',
-    'Mantén alejado del alcance de niños',
-    'No respires directamente el ozono'
-  ]
 
   return (
     <div className="min-h-screen bg-white overflow-x-hidden">
-      {/* Navbar */}
+      
+      {/* --- NAVBAR --- */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'bg-white/90 backdrop-blur-xl shadow-soft' : 'bg-transparent'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
@@ -146,10 +236,15 @@ function App() {
             
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center gap-8">
-              <button onClick={() => scrollToSection('beneficios')} className="text-[#5A6B6A] hover:text-[#00C2B5] font-medium transition-colors duration-300">Beneficios</button>
-              <button onClick={() => scrollToSection('productos')} className="text-[#5A6B6A] hover:text-[#00C2B5] font-medium transition-colors duration-300">Productos</button>
-              <button onClick={() => scrollToSection('seguridad')} className="text-[#5A6B6A] hover:text-[#00C2B5] font-medium transition-colors duration-300">Seguridad</button>
-              <button onClick={() => scrollToSection('contacto')} className="text-[#5A6B6A] hover:text-[#00C2B5] font-medium transition-colors duration-300">Contacto</button>
+              {['beneficios', 'productos', 'seguridad', 'contacto'].map((item) => (
+                <button 
+                  key={item}
+                  onClick={() => scrollToSection(item)} 
+                  className="text-[#5A6B6A] hover:text-[#00C2B5] font-medium transition-colors duration-300 capitalize"
+                >
+                  {item}
+                </button>
+              ))}
               <Button 
                 onClick={() => openWhatsApp()}
                 className="bg-[#00C2B5] hover:bg-[#00A99D] text-white px-6 rounded-full font-medium transition-all duration-300 hover:shadow-glow"
@@ -169,14 +264,19 @@ function App() {
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu Dropdown */}
         {mobileMenuOpen && (
           <div className="md:hidden bg-white/95 backdrop-blur-xl border-t border-[#E0F7F5]">
             <div className="px-4 py-6 space-y-4">
-              <button onClick={() => scrollToSection('beneficios')} className="block w-full text-left py-3 text-[#5A6B6A] font-medium">Beneficios</button>
-              <button onClick={() => scrollToSection('productos')} className="block w-full text-left py-3 text-[#5A6B6A] font-medium">Productos</button>
-              <button onClick={() => scrollToSection('seguridad')} className="block w-full text-left py-3 text-[#5A6B6A] font-medium">Seguridad</button>
-              <button onClick={() => scrollToSection('contacto')} className="block w-full text-left py-3 text-[#5A6B6A] font-medium">Contacto</button>
+              {['beneficios', 'productos', 'seguridad', 'contacto'].map((item) => (
+                <button 
+                  key={item}
+                  onClick={() => scrollToSection(item)} 
+                  className="block w-full text-left py-3 text-[#5A6B6A] font-medium capitalize"
+                >
+                  {item}
+                </button>
+              ))}
               <Button 
                 onClick={() => openWhatsApp()}
                 className="w-full bg-[#00C2B5] hover:bg-[#00A99D] text-white rounded-full"
@@ -189,9 +289,9 @@ function App() {
         )}
       </nav>
 
-      {/* Hero Section */}
+      {/* --- HERO SECTION --- */}
       <section id="hero" ref={heroRef} className="relative min-h-screen pt-20 bg-gradient-radial overflow-hidden">
-        {/* Decorative Elements */}
+        {/* Elementos Decorativos de Fondo */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-40 left-10 w-96 h-96 bg-[#00C2B5]/10 rounded-full blur-3xl"></div>
           <div className="absolute bottom-20 right-10 w-80 h-80 bg-[#00C2B5]/5 rounded-full blur-3xl"></div>
@@ -200,7 +300,7 @@ function App() {
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-80px)]">
-            {/* Text Content */}
+            {/* Columna Izquierda: Texto */}
             <div className="text-center lg:text-left pt-12 lg:pt-0">
               <div className="inline-flex items-center gap-2 bg-[#E0F7F5] text-[#00A99D] px-4 py-2 rounded-full text-sm font-medium mb-6 animate-fade-in">
                 <Star className="w-4 h-4 fill-[#00C2B5]" />
@@ -233,7 +333,7 @@ function App() {
                 </Button>
               </div>
               
-              {/* Badges */}
+              {/* Badges de características */}
               <div className="flex flex-wrap gap-4 justify-center lg:justify-start animate-slide-up" style={{ animationDelay: '0.4s' }}>
                 {[
                   { icon: <Leaf className="w-4 h-4" />, text: '100% Natural' },
@@ -251,7 +351,7 @@ function App() {
               </div>
             </div>
             
-            {/* Product Image */}
+            {/* Columna Derecha: Imagen Principal */}
             <div className="relative flex items-center justify-center">
               <div className="relative z-10 float-animation">
                 <img 
@@ -261,7 +361,7 @@ function App() {
                 />
               </div>
               
-              {/* Floating Stats */}
+              {/* Tarjetas Flotantes */}
               <div className="absolute bottom-10 left-0 bg-white rounded-2xl shadow-xl p-4 z-20 animate-slide-up" style={{ animationDelay: '0.5s' }}>
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 bg-gradient-teal rounded-xl flex items-center justify-center">
@@ -290,7 +390,7 @@ function App() {
         </div>
       </section>
 
-      {/* Beneficios Section */}
+      {/* --- BENEFICIOS SECTION --- */}
       <section id="beneficios" className="py-24 bg-white relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`text-center mb-16 transition-all duration-700 ${visibleSections.has('beneficios') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -306,7 +406,7 @@ function App() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {beneficios.map((beneficio, index) => (
+            {BENEFICIOS.map((beneficio, index) => (
               <Card 
                 key={index} 
                 className={`group overflow-hidden hover-lift border-0 shadow-soft bg-gradient-to-br ${beneficio.color} transition-all duration-700 ${visibleSections.has('beneficios') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
@@ -325,7 +425,7 @@ function App() {
         </div>
       </section>
 
-      {/* Productos Section */}
+      {/* --- PRODUCTOS SECTION --- */}
       <section id="productos" className="py-24 bg-[#F5F7FA] relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`text-center mb-16 transition-all duration-700 ${visibleSections.has('productos') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -341,7 +441,7 @@ function App() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {productos.map((producto, index) => (
+            {PRODUCTOS.map((producto, index) => (
               <Card 
                 key={index} 
                 className={`group relative overflow-hidden hover-lift border-0 shadow-soft bg-white transition-all duration-700 ${producto.popular ? 'ring-2 ring-[#00C2B5] shadow-glow' : ''} ${visibleSections.has('productos') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
@@ -400,9 +500,9 @@ function App() {
         </div>
       </section>
 
-      {/* Seguridad Section */}
+      {/* --- SEGURIDAD SECTION --- */}
       <section id="seguridad" className="py-24 relative overflow-hidden">
-        {/* Background Image */}
+        {/* Fondo */}
         <div className="absolute inset-0">
           <img 
             src="/safety-bg.jpg" 
@@ -414,6 +514,8 @@ function App() {
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className={`grid lg:grid-cols-2 gap-12 items-center transition-all duration-700 ${visibleSections.has('seguridad') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            
+            {/* Columna Izquierda: Información */}
             <div>
               <Badge className="mb-4 bg-[#E0F7F5] text-[#00A99D] hover:bg-[#E0F7F5] px-4 py-1.5 text-sm font-medium">
                 Seguridad
@@ -427,7 +529,7 @@ function App() {
               
               <div className="bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-soft border border-white/50">
                 <ul className="space-y-4">
-                  {seguridadItems.map((item, index) => (
+                  {SEGURIDAD_ITEMS.map((item, index) => (
                     <li key={index} className="flex items-start gap-3">
                       <div className="w-6 h-6 bg-gradient-teal rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                         <CheckCircle2 className="w-4 h-4 text-white" />
@@ -449,12 +551,16 @@ function App() {
               </div>
             </div>
             
-            
+            {/* Columna Derecha: CARRUSEL DE IMÁGENES */}
+            <div className="w-full flex justify-center lg:justify-end">
+              <ImageCarousel />
+            </div>
+
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* --- CTA SECTION --- */}
       <section className="py-24 bg-gradient-teal relative overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute top-0 left-0 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
@@ -477,7 +583,7 @@ function App() {
               Cotizar vía WhatsApp
             </Button>
             <Button 
-              onClick={() => window.open('mailto:info@ozon3.com', '_blank')}
+              onClick={() => window.open(`mailto:${CONTACT_INFO.email}`, '_blank')}
               variant="outline"
               className="border-2 border-white text-white hover:bg-white/10 px-8 py-6 text-base font-semibold rounded-full transition-all duration-300"
             >
@@ -488,7 +594,7 @@ function App() {
         </div>
       </section>
 
-      {/* Contacto & Footer */}
+      {/* --- CONTACTO & FOOTER --- */}
       <section id="contacto" className="bg-[#1A2B2A] text-white">
         {/* Contact Info */}
         <div className="py-16 border-b border-white/10">
@@ -500,7 +606,7 @@ function App() {
                 </div>
                 <div>
                   <p className="text-white/60 text-sm">Teléfono</p>
-                  <p className="font-semibold">+52 556 912 3847</p>
+                  <p className="font-semibold">{CONTACT_INFO.phone}</p>
                 </div>
               </div>
               <div className="flex items-center gap-4">
@@ -509,7 +615,7 @@ function App() {
                 </div>
                 <div>
                   <p className="text-white/60 text-sm">Email</p>
-                  <p className="font-semibold">info@ozon3.com</p>
+                  <p className="font-semibold">{CONTACT_INFO.email}</p>
                 </div>
               </div>
               <div className="flex items-center gap-4">
@@ -518,7 +624,7 @@ function App() {
                 </div>
                 <div>
                   <p className="text-white/60 text-sm">WhatsApp</p>
-                  <p className="font-semibold">+52 123 456 7890</p>
+                  <p className="font-semibold">{CONTACT_INFO.whatsapp_display}</p>
                 </div>
               </div>
             </div>
@@ -555,20 +661,24 @@ function App() {
               <div>
                 <h4 className="font-semibold mb-4">Enlaces Rápidos</h4>
                 <ul className="space-y-3 text-white/60">
-                  <li><button onClick={() => scrollToSection('beneficios')} className="hover:text-[#00C2B5] transition-colors">Beneficios</button></li>
-                  <li><button onClick={() => scrollToSection('productos')} className="hover:text-[#00C2B5] transition-colors">Productos</button></li>
-                  <li><button onClick={() => scrollToSection('seguridad')} className="hover:text-[#00C2B5] transition-colors">Seguridad</button></li>
-                  <li><button onClick={() => scrollToSection('contacto')} className="hover:text-[#00C2B5] transition-colors">Contacto</button></li>
+                  {['beneficios', 'productos', 'seguridad', 'contacto'].map((item) => (
+                    <li key={item}>
+                      <button onClick={() => scrollToSection(item)} className="hover:text-[#00C2B5] transition-colors capitalize">
+                        {item}
+                      </button>
+                    </li>
+                  ))}
                 </ul>
               </div>
               
               <div>
                 <h4 className="font-semibold mb-4">Legal</h4>
                 <ul className="space-y-3 text-white/60">
-                  <li><a href="#" className="hover:text-[#00C2B5] transition-colors">Política de Privacidad</a></li>
-                  <li><a href="#" className="hover:text-[#00C2B5] transition-colors">Términos de Uso</a></li>
-                  <li><a href="#" className="hover:text-[#00C2B5] transition-colors">Garantía</a></li>
-                  <li><a href="#" className="hover:text-[#00C2B5] transition-colors">Envíos</a></li>
+                  {['Política de Privacidad', 'Términos de Uso', 'Garantía', 'Envíos'].map((item) => (
+                    <li key={item}>
+                      <a href="#" className="hover:text-[#00C2B5] transition-colors">{item}</a>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
