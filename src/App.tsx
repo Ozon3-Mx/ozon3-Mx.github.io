@@ -182,9 +182,9 @@ const SEGURIDAD_ITEMS = [
 // Archivos que deben existir en /public con exactamente estos nombres
 // Para agregar más imágenes: agrega más rutas a este array
 const CAROUSEL_IMAGES = [
-  '/carrusel-1.jpg',
-  '/carrusel-2.jpg',
-  '/carrusel-3.jpg'
+  '/carrusel-1.jpeg',
+  '/carrusel-2.jpeg',
+  '/carrusel-3.jpeg'
 ]
 
 
