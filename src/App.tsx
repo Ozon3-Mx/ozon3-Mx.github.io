@@ -80,10 +80,10 @@ const CONTACT_INFO = {
 //                 Formato: 'from-[#COLOR_INICIO] to-[#COLOR_FIN]'
 const BENEFICIOS = [
   {
-    icon:        <Wind className="w-10 h-10 text-[#00C2B5]" />,
-    titulo:      'Adiós Malos Olores',
-    descripcion: 'Elimina olores persistentes de tabaco, mascotas, cocina y humedad de forma natural y efectiva.',
-    color:       'from-[#E0F7F5] to-[#F5FFFE]'
+    icon:        <Leaf className="w-10 h-10 text-[#00C2B5]" />,
+    titulo:      'Menos Químicos',
+    descripcion: 'Reduce drásticamente el uso de cloro y productos químicos en tu hogar. 100% ecológico.',
+    color:       'from-[#E0F7F5] to-[#F0FAF9]'
   },
   {
     icon:        <Droplets className="w-10 h-10 text-[#00C2B5]" />,
@@ -92,11 +92,12 @@ const BENEFICIOS = [
     color:       'from-[#E8F8F6] to-[#F5FFFE]'
   },
   {
-    icon:        <Leaf className="w-10 h-10 text-[#00C2B5]" />,
-    titulo:      'Menos Químicos',
-    descripcion: 'Reduce drásticamente el uso de cloro y productos químicos en tu hogar. 100% ecológico.',
-    color:       'from-[#E0F7F5] to-[#F0FAF9]'
+    icon:        <Wind className="w-10 h-10 text-[#00C2B5]" />,
+    titulo:      'Adiós Malos Olores',
+    descripcion: 'Elimina olores persistentes de tabaco, mascotas, cocina y humedad de forma natural y efectiva.',
+    color:       'from-[#E0F7F5] to-[#F5FFFE]'
   }
+  
 ]
 
 
@@ -124,9 +125,9 @@ const PRODUCTOS = [
     id:             'basic',
     nombre:         'Ozon3 Basic',
     potencia:       '10W',
-    descripcion:    'El esencial para autos y closets. Control manual, 1000mg/h. Incluye kit para agua.',
+    descripcion:    'El esencial para autos, closets y espacios reducidos. Control manual, 1000mg/h. Incluye kit para agua.',
     precio:         '$499',
-    caracteristicas: ['1000 mg/h', 'Control Manual', 'Kit Agua Incluido', 'Portátil'],
+    caracteristicas: ['1000 mg/h', 'Control Manual', 'Kit de Agua', 'Portátil'],
     imagen:         '/product-basic.png',
     popular:        false,
     nivel:          'Doméstico',
@@ -139,9 +140,9 @@ const PRODUCTOS = [
     id:             'timer',
     nombre:         'Ozon3 Analog Timer',
     potencia:       '20W',
-    descripcion:    'Con Temporizador Inteligente. Programa tus ciclos de limpieza y despreocúpate. Ideal para habitaciones y desinfección de verduras.',
+    descripcion:    'Programa tus ciclos de limpieza y despreocúpate. Ideal para habitaciones, baños, cocina y desinfección de verduras.',
     precio:         '$799',
-    caracteristicas: ['Temporizador Digital', 'Programable', '2000 mg/h', 'Pantalla LED'],
+    caracteristicas: ['2000 mg/h','Temporizador Digital','Uso Doméstico'],
     imagen:         '/product-timer.png',
     popular:        true,  // ← Este producto muestra el badge "Más Vendido"
     nivel:          'Hogar & Cocina',
@@ -153,9 +154,9 @@ const PRODUCTOS = [
     id:             'hydro',
     nombre:         'Ozon3 HydroFlow',
     potencia:       '25W',
-    descripcion:    'Para Flujo de Agua. Conexión directa a lavadoras y mangueras. Lava ropa en frío y desinfecta pisos.',
+    descripcion:    'Para Flujo de Agua en lavadoras y mangueras. Lava ropa en frío y desinfecta pisos y superficies amplias.',
     precio:         '$7199',
-    caracteristicas: ['Flujo Continuo', 'Conexión Directa', '3000 mg/h', 'Uso Profesional'],
+    caracteristicas: ['Flujo Continuo', 'Conexión Directa', 'Pantalla LED', 'Uso Profesional'],
     imagen:         '/product-hydro.png',
     popular:        false,
     nivel:          'Profesional',
@@ -523,7 +524,7 @@ function App() {
                 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#1A2B2A] leading-tight mb-6 animate-slide-up"
                 style={{ animationDelay: '0.1s' }}
               >
-                Purifica tu Espacio con{' '}
+                Purifica tu Vida con{' '}
                 {/* text-gradient: clase de App.css que aplica gradiente teal al texto */}
                 <span className="text-gradient">Tecnología Ozon3</span>
               </h1>
@@ -958,7 +959,8 @@ function App() {
             {/* Botón primario: blanco con texto teal, animación de pulso */}
             <Button
               onClick={() => openWhatsApp()}
-              className="bg-white text-[#00C2B5] hover:bg-white/90 px-8 py-6 text-base font-semibold rounded-full shadow-xl transition-all duration-300 hover:scale-105 sonar-pulse"
+              variant="outline"
+              className="bg-white text-[#00C2B5] hover:bg-white/10 px-8 py-6 text-base font-semibold rounded-full transition-all duration-300"
             >
               <MessageCircle className="w-5 h-5 mr-2" />
               Cotizar vía WhatsApp
@@ -968,7 +970,7 @@ function App() {
             <Button
               onClick={() => window.open(`mailto:${CONTACT_INFO.email}`, '_blank')}
               variant="outline"
-              className="border-2 border-white text-white hover:bg-white/10 px-8 py-6 text-base font-semibold rounded-full transition-all duration-300"
+              className="border-2 border-white text-[#00C2B5] hover:bg-white/10 px-8 py-6 text-base font-semibold rounded-full transition-all duration-300"
             >
               <Mail className="w-5 h-5 mr-2" />
               Envíanos un Email
