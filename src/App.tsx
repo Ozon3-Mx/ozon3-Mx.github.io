@@ -37,14 +37,15 @@ import {
   MessageCircle, // ícono de WhatsApp   → botones de cotización
   ExternalLink,  // ícono de enlace     → redes sociales en footer
   ChevronLeft,   // ícono flecha izq    → carrusel botón anterior
-  ChevronRight   // ícono flecha der    → carrusel botón siguiente
+  ChevronRight,  // ícono flecha der    → carrusel botón siguiente
+  Instagram      // ícono de Instagram  → contacto/redes
 } from 'lucide-react'
 
 // Componentes de UI de shadcn (botones, tarjetas, badges estilizados)
 // Están en src/components/ui/ — se instalaron con: npx shadcn-ui@latest add ...
-import { Button }            from '@/components/ui/button'
+import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { Badge }             from '@/components/ui/badge'
+import { Badge } from '@/components/ui/badge'
 
 // Estilos personalizados: animaciones (float, slide-up, fade-in, sonar-pulse)
 // y clases de utilidad que Tailwind no tiene por defecto (shadow-glow, bg-gradient-teal, etc.)
@@ -63,10 +64,12 @@ import './App.css'
 // --- Información de contacto ---
 // Se usa en: Navbar (WhatsApp), Footer (teléfono, email, WA), CTA (email)
 const CONTACT_INFO = {
-  phone:            '+52 556 912 3847',   // Teléfono mostrado en footer
-  whatsapp_display: '+52 123 456 7890',   // WhatsApp mostrado en footer (puede ser diferente al link)
-  whatsapp_link:    '525569123847',       // Número real para wa.me — sin +, sin espacios, con código país
-  email:            'info@ozon3.com'      // Email de contacto
+  phone: '+52 556 912 3847',   // Teléfono mostrado en footer
+  whatsapp_display: '+52 556 912 3847',   // WhatsApp mostrado en footer (puede ser diferente al link)
+  whatsapp_link: '525569123847',       // Número real para wa.me — sin +, sin espacios, con código país
+  email: 'ozon3.mx@gmail.com',      // Email de contacto
+  instagram: '@ozon3.mx',       // Instagram handle
+  instagram_link: 'https://www.instagram.com/ozon3.mx/' // Link a IG
 }
 
 
@@ -80,24 +83,24 @@ const CONTACT_INFO = {
 //                 Formato: 'from-[#COLOR_INICIO] to-[#COLOR_FIN]'
 const BENEFICIOS = [
   {
-    icon:        <Leaf className="w-10 h-10 text-[#00C2B5]" />,
-    titulo:      'Menos Químicos',
+    icon: <Leaf className="w-10 h-10 text-[#00C2B5]" />,
+    titulo: 'Menos Químicos',
     descripcion: 'Reduce drásticamente el uso de cloro y productos químicos en tu hogar. 100% ecológico.',
-    color:       'from-[#E0F7F5] to-[#F0FAF9]'
+    color: 'from-[#E0F7F5] to-[#F0FAF9]'
   },
   {
-    icon:        <Droplets className="w-10 h-10 text-[#00C2B5]" />,
-    titulo:      'Desinfección de Alimentos',
+    icon: <Droplets className="w-10 h-10 text-[#00C2B5]" />,
+    titulo: 'Desinfección de Alimentos',
     descripcion: 'Lava frutas y verduras con agua ozonizada para eliminar pesticidas, bacterias y contaminantes.',
-    color:       'from-[#E8F8F6] to-[#F5FFFE]'
+    color: 'from-[#E8F8F6] to-[#F5FFFE]'
   },
   {
-    icon:        <Wind className="w-10 h-10 text-[#00C2B5]" />,
-    titulo:      'Adiós Malos Olores',
+    icon: <Wind className="w-10 h-10 text-[#00C2B5]" />,
+    titulo: 'Adiós Malos Olores',
     descripcion: 'Elimina olores persistentes de tabaco, mascotas, cocina y humedad de forma natural y efectiva.',
-    color:       'from-[#E0F7F5] to-[#F5FFFE]'
+    color: 'from-[#E0F7F5] to-[#F5FFFE]'
   }
-  
+
 ]
 
 
@@ -122,47 +125,48 @@ const BENEFICIOS = [
 //   cardRing     → clases Tailwind para el ring/glow del card completo (solo popular=true)
 const PRODUCTOS = [
   {
-    id:             'basic',
-    nombre:         'Ozon3 Basic',
-    potencia:       '10W',
-    descripcion:    'El esencial para autos, closets y espacios reducidos. Control manual, 1000mg/h. Incluye kit para agua.',
-    precio:         '$499',
+    id: 'basic',
+    nombre: 'Ozon3 Basic',
+    potencia: '10W',
+    descripcion: 'El esencial para autos, closets y espacios reducidos. Control manual, 1000mg/h. Incluye kit para agua.',
+    precio: '$499',
     caracteristicas: ['1000 mg/h', 'Control Manual', 'Kit de Agua', 'Portátil'],
-    imagen:         '/product-basic.png',
-    popular:        false,
-    nivel:          'Doméstico',
+    imagen: '/product-basic.png',
+    popular: false,
+    nivel: 'Doméstico',
     // Gradiente azul claro → gris: fondo tipo estudio fotográfico neutro
-    imageBg:        'radial-gradient(ellipse at 50% 50%, #F0F7FF 0%, #C8DAE8 45%, #9AB5C8 100%)',
-    accentColor:    '#00C2B5',   // Teal brand color
-    cardRing:       ''
+    imageBg: 'radial-gradient(ellipse at 50% 50%, #F0F7FF 0%, #C8DAE8 45%, #9AB5C8 100%)',
+    accentColor: '#2aaba2',   // Teal brand color
+    cardRing: ''
   },
   {
-    id:             'timer',
-    nombre:         'Ozon3 Analog Timer',
-    potencia:       '20W',
-    descripcion:    'Programa tus ciclos de limpieza y despreocúpate. Ideal para habitaciones, baños, cocina y desinfección de verduras.',
-    precio:         '$799',
-    caracteristicas: ['2000 mg/h','Temporizador Digital','Uso Doméstico'],
-    imagen:         '/product-timer.png',
-    popular:        true,  // ← Este producto muestra el badge "Más Vendido"
-    nivel:          'Hogar & Cocina',
-    imageBg:        'radial-gradient(ellipse at 50% 50%, #F0F7FF 0%, #C8DAE8 45%, #9AB5C8 100%)',
-    accentColor:    '#E8A020',   // Ámbar/dorado → diferencia al más vendido
-    cardRing:       'ring-2 ring-[#00C2B5] shadow-glow'  // Ring teal alrededor de la tarjeta completa
+    id: 'timer',
+    nombre: 'Ozon3 Analog Timer',
+    potencia: '20W',
+    descripcion: 'Programa tus ciclos de limpieza y despreocúpate. Ideal para habitaciones, baños, cocina y desinfección de verduras.',
+    precio: '$799',
+    precioAnterior: '$1099',
+    caracteristicas: ['2000 mg/h', 'Temporizador Digital', 'Desinfección de Alimentos', 'Uso Doméstico'],
+    imagen: '/product-timer.png',
+    popular: true,  // ← Este producto muestra el badge "Más Vendido"
+    nivel: 'Hogar & Cocina',
+    imageBg: 'radial-gradient(ellipse at 50% 50%, #F0F7FF 0%, #C8DAE8 45%, #9AB5C8 100%)',
+    accentColor: '#e49d22',   // Ámbar/dorado → diferencia al más vendido
+    cardRing: 'ring-2 ring-[#00C2B5] shadow-glow'  // Ring teal alrededor de la tarjeta completa
   },
   {
-    id:             'hydro',
-    nombre:         'Ozon3 HydroFlow',
-    potencia:       '25W',
-    descripcion:    'Para Flujo de Agua en lavadoras y mangueras. Lava ropa en frío y desinfecta pisos y superficies amplias.',
-    precio:         '$7199',
+    id: 'hydro',
+    nombre: 'Ozon3 HydroFlow',
+    potencia: '25W',
+    descripcion: 'Para Flujo de Agua en lavadoras y mangueras. Lava ropa en frío y desinfecta pisos y superficies amplias.',
+    precio: '$7199',
     caracteristicas: ['Flujo Continuo', 'Conexión Directa', 'Pantalla LED', 'Uso Profesional'],
-    imagen:         '/product-hydro.png',
-    popular:        false,
-    nivel:          'Profesional',
-    imageBg:        'radial-gradient(ellipse at 50% 50%, #F0F7FF 0%, #C8DAE8 45%, #9AB5C8 100%)',
-    accentColor:    '#0099DD',   // Azul → evoca agua y nivel profesional
-    cardRing:       ''
+    imagen: '/product-hydro.png',
+    popular: false,
+    nivel: 'Profesional',
+    imageBg: 'radial-gradient(ellipse at 50% 50%, #F0F7FF 0%, #C8DAE8 45%, #9AB5C8 100%)',
+    accentColor: '#0099DD',   // Azul → evoca agua y nivel profesional
+    cardRing: ''
   }
 ]
 
@@ -277,9 +281,8 @@ const ImageCarousel = () => {
           <button
             key={index}
             onClick={() => setCurrentIndex(index)}
-            className={`h-2.5 rounded-full transition-all duration-300 ${
-              currentIndex === index ? 'bg-white w-6' : 'bg-white/50 w-2.5'
-            }`}
+            className={`h-2.5 rounded-full transition-all duration-300 ${currentIndex === index ? 'bg-white w-6' : 'bg-white/50 w-2.5'
+              }`}
           />
         ))}
       </div>
@@ -403,9 +406,8 @@ function App() {
             - Sin scroll → bg-transparent (se ve el hero detrás)
             - Con scroll → bg-white/90 + blur (fondo sólido semiopaco)
       ====================================================== */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled ? 'bg-white/90 backdrop-blur-xl shadow-soft' : 'bg-transparent'
-      }`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'bg-white/90 backdrop-blur-xl shadow-soft' : 'bg-transparent'
+        }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
 
@@ -569,9 +571,9 @@ function App() {
                 style={{ animationDelay: '0.4s' }}
               >
                 {[
-                  { icon: <Leaf   className="w-4 h-4" />, text: '100% Natural'  },
-                  { icon: <Shield className="w-4 h-4" />, text: 'Sin Químicos'  },
-                  { icon: <Zap    className="w-4 h-4" />, text: 'Ecológico'     }
+                  { icon: <Leaf className="w-4 h-4" />, text: '100% Natural' },
+                  { icon: <Shield className="w-4 h-4" />, text: 'Sin Químicos' },
+                  { icon: <Zap className="w-4 h-4" />, text: 'Ecológico' }
                 ].map((badge, index) => (
                   <div
                     key={index}
@@ -646,9 +648,8 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Encabezado animado: visible cuando visibleSections incluye 'beneficios' */}
-          <div className={`text-center mb-16 transition-all duration-700 ${
-            visibleSections.has('beneficios') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-          }`}>
+          <div className={`text-center mb-16 transition-all duration-700 ${visibleSections.has('beneficios') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}>
             <Badge className="mb-4 bg-[#E0F7F5] text-[#00A99D] hover:bg-[#E0F7F5] px-4 py-1.5 text-sm font-medium">
               Beneficios
             </Badge>
@@ -666,9 +667,8 @@ function App() {
             {BENEFICIOS.map((beneficio, index) => (
               <Card
                 key={index}
-                className={`group overflow-hidden hover-lift border-0 shadow-soft bg-gradient-to-br ${beneficio.color} transition-all duration-700 ${
-                  visibleSections.has('beneficios') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                }`}
+                className={`group overflow-hidden hover-lift border-0 shadow-soft bg-gradient-to-br ${beneficio.color} transition-all duration-700 ${visibleSections.has('beneficios') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                  }`}
                 // Retraso escalonado: tarjeta 0 → 0ms, tarjeta 1 → 100ms, tarjeta 2 → 200ms
                 style={{ transitionDelay: `${index * 100}ms` }}
               >
@@ -712,9 +712,8 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Encabezado animado */}
-          <div className={`text-center mb-16 transition-all duration-700 ${
-            visibleSections.has('productos') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-          }`}>
+          <div className={`text-center mb-16 transition-all duration-700 ${visibleSections.has('productos') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}>
             <Badge className="mb-4 bg-[#E0F7F5] text-[#00A99D] hover:bg-[#E0F7F5] px-4 py-1.5 text-sm font-medium">
               Catálogo
             </Badge>
@@ -778,9 +777,9 @@ function App() {
                   <div
                     className="absolute bottom-3 left-3 z-20 text-xs font-semibold px-3 py-1 rounded-full backdrop-blur-sm"
                     style={{
-                      color:           producto.accentColor,
+                      color: producto.accentColor,
                       backgroundColor: `${producto.accentColor}18`,
-                      border:          `1px solid ${producto.accentColor}40`
+                      border: `1px solid ${producto.accentColor}40`
                     }}
                   >
                     {producto.nivel}
@@ -797,9 +796,9 @@ function App() {
                     <span
                       className="text-xs font-bold px-2 py-1 rounded"
                       style={{
-                        color:           producto.accentColor,
+                        color: producto.accentColor,
                         backgroundColor: `${producto.accentColor}15`,
-                        border:          `1px solid ${producto.accentColor}30`
+                        border: `1px solid ${producto.accentColor}30`
                       }}
                     >
                       {producto.potencia}
@@ -828,14 +827,25 @@ function App() {
                   <div className="flex items-center justify-between pt-4 border-t border-[#E0F7F5]">
 
                     {/* Precio con color de acento del producto */}
-                    <div>
-                      <span
-                        className="text-2xl font-bold"
-                        style={{ color: producto.accentColor }}
-                      >
-                        {producto.precio}
-                      </span>
-                      <span className="text-sm text-[#5A6B6A]"> MXN</span>
+                    <div className="flex flex-col">
+                      {/* Precio anterior (tacha) si existe */}
+                      {producto.precioAnterior && (
+                        <div className="flex items-center gap-1 opacity-60 mb-[-4px]">
+                          <span className="text-sm text-[#5A6B6A] line-through font-black">
+                            {producto.precioAnterior}
+                          </span>
+                          <span className="text-[10px] text-[#5A6B6A] line-through font-black uppercase">MXN</span>
+                        </div>
+                      )}
+                      <div className="flex items-center">
+                        <span
+                          className="text-2xl font-bold"
+                          style={{ color: producto.accentColor }}
+                        >
+                          {producto.precio}
+                        </span>
+                        <span className="text-[10px] font-bold text-[#5A6B6A] uppercase ml-1">MXN</span>
+                      </div>
                     </div>
 
                     {/* Botón Cotizar: abre WhatsApp con el nombre del producto en el mensaje */}
@@ -877,9 +887,8 @@ function App() {
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className={`grid lg:grid-cols-2 gap-12 items-center transition-all duration-700 ${
-            visibleSections.has('seguridad') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-          }`}>
+          <div className={`grid lg:grid-cols-2 gap-12 items-center transition-all duration-700 ${visibleSections.has('seguridad') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}>
 
             {/* COLUMNA IZQUIERDA: recomendaciones de seguridad */}
             <div>
@@ -995,15 +1004,16 @@ function App() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-3 gap-8">
 
-              {/* Teléfono */}
+              {/* Instagram */}
               <div className="flex items-center gap-4">
                 <div className="w-14 h-14 bg-[#00C2B5]/20 rounded-2xl flex items-center justify-center">
-                  <Phone className="w-6 h-6 text-[#00C2B5]" />
+                  <Instagram className="w-6 h-6 text-[#00C2B5]" />
                 </div>
                 <div>
-                  <p className="text-white/60 text-sm">Teléfono</p>
-                  {/* Valor desde CONTACT_INFO */}
-                  <p className="font-semibold">{CONTACT_INFO.phone}</p>
+                  <p className="text-white/60 text-sm">Instagram</p>
+                  <a href={CONTACT_INFO.instagram_link} target="_blank" rel="noopener noreferrer" className="font-semibold hover:text-[#00C2B5] transition-colors">
+                    {CONTACT_INFO.instagram}
+                  </a>
                 </div>
               </div>
 
@@ -1053,13 +1063,19 @@ function App() {
                 {/* Redes sociales: actualmente usan ExternalLink como placeholder.
                     Para agregar íconos reales, instala react-icons o usa imágenes SVG */}
                 <div className="flex gap-4">
-                  {['facebook', 'twitter', 'instagram', 'linkedin'].map(social => (
+                  {[
+                    { icon: <Instagram className="w-5 h-5" />, link: CONTACT_INFO.instagram_link, label: 'Instagram' },
+                    { icon: <ExternalLink className="w-5 h-5" />, link: '#', label: 'Facebook' }
+                  ].map((social, idx) => (
                     <a
-                      key={social}
-                      href="#"  // ← Reemplaza con las URLs reales de redes sociales
+                      key={idx}
+                      href={social.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center hover:bg-[#00C2B5] transition-colors duration-300"
+                      title={social.label}
                     >
-                      <ExternalLink className="w-5 h-5" />
+                      {social.icon}
                     </a>
                   ))}
                 </div>
