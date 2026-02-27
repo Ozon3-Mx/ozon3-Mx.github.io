@@ -426,7 +426,7 @@ function App() {
             {/* MENÚ DESKTOP: oculto en móvil (hidden), visible en md+ (md:flex) */}
             <div className="hidden md:flex items-center gap-8">
               {/* Genera un botón por cada sección del menú */}
-              {['beneficios', 'productos', 'seguridad', 'contacto'].map(item => (
+              {['beneficios', 'catálogo', 'seguridad', 'contacto'].map(item => (
                 <button
                   key={item}
                   onClick={() => scrollToSection(item)}
@@ -462,7 +462,7 @@ function App() {
         {mobileMenuOpen && (
           <div className="md:hidden bg-white/95 backdrop-blur-xl border-t border-[#E0F7F5]">
             <div className="px-4 py-6 space-y-4">
-              {['beneficios', 'productos', 'seguridad', 'contacto'].map(item => (
+              {['beneficios', 'catálogo', 'seguridad', 'contacto'].map(item => (
                 <button
                   key={item}
                   onClick={() => scrollToSection(item)}
