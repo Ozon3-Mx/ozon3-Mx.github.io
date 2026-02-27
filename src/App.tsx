@@ -25,7 +25,7 @@ import {
   Droplets,      // ícono de gotas      → beneficio alimentos
   Leaf,          // ícono de hoja       → beneficio ecológico
   CheckCircle2,  // ícono de check      → lista de seguridad
-  Phone,         // ícono de teléfono   → contacto
+  //Phone,         // ícono de teléfono   → contacto
   Mail,          // ícono de email      → contacto
   Menu,          // ícono hamburguesa   → abrir menú móvil
   X,             // ícono de X          → cerrar menú móvil
