@@ -35,6 +35,7 @@ html {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -45,24 +46,31 @@ html {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
 }
 
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-15px);
   }
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 20px rgba(0, 194, 181, 0.3);
   }
+
   50% {
     box-shadow: 0 0 40px rgba(0, 194, 181, 0.6);
   }
@@ -72,9 +80,11 @@ html {
   0% {
     box-shadow: 0 0 0 0 rgba(0, 194, 181, 0.4);
   }
+
   70% {
     box-shadow: 0 0 0 20px rgba(0, 194, 181, 0);
   }
+
   100% {
     box-shadow: 0 0 0 0 rgba(0, 194, 181, 0);
   }
@@ -153,6 +163,24 @@ html {
 /* Button magnetic effect placeholder */
 .btn-magnetic {
   transition: transform 0.2s ease-out;
+}
+
+
+/* Wholesale highlight */
+.wholesale-highlight {
+  display: inline-block;
+  background: linear-gradient(135deg, #FFD93D 0%, #FF8400 100%);
+  color: #000;
+  padding: 0.5rem 1.2rem;
+  font-weight: 900;
+  border-radius: 12px;
+  transform: rotate(-8deg);
+  box-shadow: 0 10px 25px rgba(255, 132, 0, 0.4);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  border: 3px solid white;
+  animation: float 4s ease-in-out infinite;
+  z-index: 10;
 }
 
 /* Responsive adjustments */

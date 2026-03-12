@@ -129,7 +129,7 @@ const PRODUCTOS = [
     nombre: 'Ozon3 Basic',
     potencia: '10W',
     descripcion: 'El esencial para autos, closets y espacios reducidos. Control manual, 1000mg/h. Incluye kit para agua.',
-    precio: '$499',
+    precio: '$699',
     caracteristicas: ['1000 mg/h', 'Control Manual', 'Kit de Agua', 'Portátil'],
     imagen: '/product-basic.png',
     popular: false,
@@ -141,12 +141,12 @@ const PRODUCTOS = [
   },
   {
     id: 'timer',
-    nombre: 'Ozon3 Analog Timer',
+    nombre: 'Ozon3 MinLock',
     potencia: '20W',
     descripcion: 'Programa tus ciclos de limpieza y despreocúpate. Ideal para habitaciones, baños, cocina y desinfección de verduras.',
-    precio: '$799',
-    precioAnterior: '$1099',
-    caracteristicas: ['2000 mg/h', 'Temporizador Digital', 'Desinfección de Alimentos', 'Uso Doméstico'],
+    precio: '$899',
+    precioAnterior: '$1199',
+    caracteristicas: ['2000 mg/h', 'Temporizador Inteligente', 'Desinfección de Alimentos', 'Uso Doméstico'],
     imagen: '/product-timer.png',
     popular: true,  // ← Este producto muestra el badge "Más Vendido"
     nivel: 'Hogar & Cocina',
@@ -382,7 +382,7 @@ function App() {
   // Uso: openWhatsApp(`Hola, me interesa el ${producto.nombre}`)
   const openWhatsApp = (message: string = '') => {
     const text = encodeURIComponent(
-      message || 'Hola, me interesa cotizar un generador de ozono Ozon3'
+      message || 'Hola, me interesa comprar un generador de ozono Ozon3'
     )
     window.open(`https://wa.me/${CONTACT_INFO.whatsapp_link}?text=${text}`, '_blank')
   }
@@ -426,7 +426,7 @@ function App() {
             {/* MENÚ DESKTOP: oculto en móvil (hidden), visible en md+ (md:flex) */}
             <div className="hidden md:flex items-center gap-8">
               {/* Genera un botón por cada sección del menú */}
-              {['beneficios', 'catálogo', 'seguridad', 'contacto'].map(item => (
+              {['beneficios', 'productos', 'seguridad', 'contacto'].map(item => (
                 <button
                   key={item}
                   onClick={() => scrollToSection(item)}
@@ -441,7 +441,7 @@ function App() {
                 className="bg-[#00C2B5] hover:bg-[#00A99D] text-white px-6 rounded-full font-medium transition-all duration-300 hover:shadow-glow"
               >
                 <MessageCircle className="w-4 h-4 mr-2" />
-                Cotizar en WhatsApp
+                Comprar en WhatsApp
               </Button>
             </div>
 
@@ -462,7 +462,7 @@ function App() {
         {mobileMenuOpen && (
           <div className="md:hidden bg-white/95 backdrop-blur-xl border-t border-[#E0F7F5]">
             <div className="px-4 py-6 space-y-4">
-              {['beneficios', 'catálogo', 'seguridad', 'contacto'].map(item => (
+              {['beneficios', 'productos', 'seguridad', 'contacto'].map(item => (
                 <button
                   key={item}
                   onClick={() => scrollToSection(item)}
@@ -477,7 +477,7 @@ function App() {
                 className="w-full bg-[#00C2B5] hover:bg-[#00A99D] text-white rounded-full"
               >
                 <MessageCircle className="w-4 h-4 mr-2" />
-                Cotizar en WhatsApp
+                Comprar en WhatsApp
               </Button>
             </div>
           </div>
@@ -715,7 +715,7 @@ function App() {
           <div className={`text-center mb-16 transition-all duration-700 ${visibleSections.has('productos') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}>
             <Badge className="mb-4 bg-[#E0F7F5] text-[#00A99D] hover:bg-[#E0F7F5] px-4 py-1.5 text-sm font-medium">
-              Catálogo
+              Productos
             </Badge>
             <h2 className="text-3xl lg:text-5xl font-bold text-[#1A2B2A] mb-4">
               Elige tu <span className="text-gradient">Ozon3 Ideal</span>
@@ -850,12 +850,12 @@ function App() {
 
                     {/* Botón Cotizar: abre WhatsApp con el nombre del producto en el mensaje */}
                     <Button
-                      onClick={() => openWhatsApp(`Hola, me interesa cotizar el ${producto.nombre}`)}
+                      onClick={() => openWhatsApp(`Hola, me interesa comprar el ${producto.nombre}`)}
                       className="text-white rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 hover:opacity-90 hover:shadow-lg"
                       style={{ backgroundColor: producto.accentColor }}
                     >
                       <MessageCircle className="w-4 h-4 mr-2" />
-                      Cotizar
+                      Comprar Ahora
                     </Button>
                   </div>
                 </CardContent>
@@ -972,7 +972,7 @@ function App() {
               className="bg-white text-[#00C2B5] hover:bg-white/10 px-8 py-6 text-base font-semibold rounded-full transition-all duration-300"
             >
               <MessageCircle className="w-5 h-5 mr-2" />
-              Cotizar vía WhatsApp
+              Comprar vía WhatsApp
             </Button>
 
             {/* Botón secundario: borde blanco, abre cliente de correo */}
