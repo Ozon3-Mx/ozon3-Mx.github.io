@@ -38,7 +38,9 @@ import {
   ExternalLink,  // ícono de enlace     → redes sociales en footer
   ChevronLeft,   // ícono flecha izq    → carrusel botón anterior
   ChevronRight,  // ícono flecha der    → carrusel botón siguiente
-  Instagram      // ícono de Instagram  → contacto/redes
+  Instagram,     // ícono de Instagram  → contacto/redes
+  Copy,          // ícono de copiar
+  Check          // ícono de check/copiado
 } from 'lucide-react'
 
 // Componentes de UI de shadcn (botones, tarjetas, badges estilizados)
@@ -83,24 +85,20 @@ const CONTACT_INFO = {
 //                 Formato: 'from-[#COLOR_INICIO] to-[#COLOR_FIN]'
 const BENEFICIOS = [
   {
-    icon: <Leaf className="w-10 h-10 text-[#00C2B5]" />,
+    icon: <Leaf className="w-8 h-8" />,
     titulo: 'Menos Químicos',
-    descripcion: 'Reduce drásticamente el uso de cloro y productos químicos en tu hogar. 100% ecológico.',
-    color: 'from-[#E0F7F5] to-[#F0FAF9]'
+    descripcion: 'Reduce drásticamente el uso de cloro y productos químicos en tu hogar. 100% ecológico.'
   },
   {
-    icon: <Droplets className="w-10 h-10 text-[#00C2B5]" />,
+    icon: <Droplets className="w-8 h-8" />,
     titulo: 'Desinfección de Alimentos',
-    descripcion: 'Lava frutas y verduras con agua ozonizada para eliminar pesticidas, bacterias y contaminantes.',
-    color: 'from-[#E8F8F6] to-[#F5FFFE]'
+    descripcion: 'Lava frutas y verduras con agua ozonizada para eliminar pesticidas, bacterias y contaminantes.'
   },
   {
-    icon: <Wind className="w-10 h-10 text-[#00C2B5]" />,
+    icon: <Wind className="w-8 h-8" />,
     titulo: 'Adiós Malos Olores',
-    descripcion: 'Elimina olores persistentes de tabaco, mascotas, cocina y humedad de forma natural y efectiva.',
-    color: 'from-[#E0F7F5] to-[#F5FFFE]'
+    descripcion: 'Elimina olores persistentes de tabaco, mascotas, cocina y humedad de forma natural y efectiva.'
   }
-
 ]
 
 
@@ -145,7 +143,7 @@ const PRODUCTOS = [
     nombre: 'Ozon3 MinLock',
     potencia: '20W',
     descripcion: 'Programa tus ciclos de limpieza y despreocúpate. Ideal para habitaciones, baños, cocina y desinfección de verduras.',
-    precio: '$1199',
+    precio: '$1,199',
     precioMayoreo: '$999',
     caracteristicas: ['2000 mg/h', 'Temporizador Inteligente', 'Desinfección de Alimentos', 'Uso Doméstico'],
     imagen: '/product-timer.png',
@@ -153,15 +151,15 @@ const PRODUCTOS = [
     nivel: 'Hogar & Cocina',
     imageBg: 'radial-gradient(ellipse at 50% 50%, #F0F7FF 0%, #C8DAE8 45%, #9AB5C8 100%)',
     accentColor: '#e49d22',   // Ámbar/dorado → diferencia al más vendido
-    cardRing: 'ring-2 ring-[#00C2B5] shadow-glow'  // Ring teal alrededor de la tarjeta completa
+    cardRing: 'ring-2 ring-[#0CAC9C] shadow-glow'  // Ring teal alrededor de la tarjeta completa
   },
   {
     id: 'hydro',
     nombre: 'Ozon3 HydroFlow',
     potencia: '25W',
     descripcion: 'Para Flujo de Agua en lavadoras y mangueras. Lava ropa en frío y desinfecta pisos y superficies amplias.',
-    precio: '$6299',
-    precioMayoreo: '$5599',
+    precio: '$6,299',
+    precioMayoreo: '$5,599',
     caracteristicas: ['Flujo Continuo', 'Conexión Directa', 'Pantalla LED', 'Uso Profesional'],
     imagen: '/product-hydro.png',
     popular: false,
@@ -260,7 +258,7 @@ const ImageCarousel = () => {
       <button
         onClick={prevSlide}
         className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full
-                   opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white text-[#00C2B5]"
+                   opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white text-[#0CAC9C]"
       >
         <ChevronLeft size={24} />
       </button>
@@ -269,7 +267,7 @@ const ImageCarousel = () => {
       <button
         onClick={nextSlide}
         className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full
-                   opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white text-[#00C2B5]"
+                   opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white text-[#0CAC9C]"
       >
         <ChevronRight size={24} />
       </button>
@@ -313,8 +311,26 @@ function App() {
   // → activa las clases de animación (opacity-100, translate-y-0)
   // Se usa como: visibleSections.has('beneficios') ? 'opacity-100' : 'opacity-0'
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set())
+  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false)
+  const [copiedEmail, setCopiedEmail] = useState(false)
 
-  // heroRef: referencia al elemento <section id="hero">
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(CONTACT_INFO.email)
+    setCopiedEmail(true)
+    setTimeout(() => setCopiedEmail(false), 2500)
+  }
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsEmailModalOpen(false)
+    }
+    if (isEmailModalOpen) {
+      window.addEventListener('keydown', handleKeyDown)
+    }
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [isEmailModalOpen])
+
+  // heroRef: referencia al nodo DOM de la sección Hero
   // Disponible para usos futuros (ej: parallax, métricas de scroll)
   const heroRef = useRef<HTMLElement>(null)
 
@@ -418,11 +434,8 @@ function App() {
               className="flex items-center gap-2 cursor-pointer"
               onClick={() => scrollToSection('hero')}
             >
-              {/* Cuadro teal con O₃ */}
-              <div className="w-10 h-10 bg-gradient-teal rounded-xl flex items-center justify-center shadow-glow">
-                <span className="text-white font-bold text-lg">O₃</span>
-              </div>
-              <span className="text-2xl font-bold text-[#1A2B2A]">Ozon3</span>
+              <img src="/logo.png" alt="Ozon3" className="h-10 sm:h-12 w-auto object-contain" />
+              <span className="font-bankgothic text-2xl font-bold text-[#102842] tracking-wider uppercase">OZON3</span>
             </div>
 
             {/* MENÚ DESKTOP: oculto en móvil (hidden), visible en md+ (md:flex) */}
@@ -432,7 +445,7 @@ function App() {
                 <button
                   key={item}
                   onClick={() => scrollToSection(item)}
-                  className="text-[#5A6B6A] hover:text-[#00C2B5] font-medium transition-colors duration-300 capitalize"
+                  className="text-[#557089] hover:text-[#359EAC] font-medium transition-colors duration-300 capitalize"
                 >
                   {item}
                 </button>
@@ -440,7 +453,7 @@ function App() {
               {/* Botón CTA de WhatsApp en el navbar */}
               <Button
                 onClick={() => openWhatsApp()}
-                className="bg-[#00C2B5] hover:bg-[#00A99D] text-white px-6 rounded-full font-medium transition-all duration-300 hover:shadow-glow"
+                className="bg-[#359EAC] hover:bg-[#0CAC9C] text-white px-6 rounded-full font-medium transition-all duration-300 hover:shadow-glow"
               >
                 <MessageCircle className="w-4 h-4 mr-2" />
                 Comprar en WhatsApp
@@ -450,7 +463,7 @@ function App() {
             {/* BOTÓN HAMBURGUESA: visible solo en móvil
                 Alterna entre ícono Menu (☰) e ícono X (✕) */}
             <button
-              className="md:hidden p-2 text-[#1A2B2A]"
+              className="md:hidden p-2 text-[#102842]"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -462,21 +475,21 @@ function App() {
             Solo se renderiza cuando mobileMenuOpen = true.
             Se muestra debajo del navbar con fondo semiopaco. */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-white/95 backdrop-blur-xl border-t border-[#E0F7F5]">
+          <div className="md:hidden bg-white/95 backdrop-blur-xl border-t border-[#EBE9EA]">
             <div className="px-4 py-6 space-y-4">
               {['beneficios', 'productos', 'seguridad', 'contacto'].map(item => (
                 <button
                   key={item}
                   onClick={() => scrollToSection(item)}
                   // scrollToSection ya cierra el menú al llamarse
-                  className="block w-full text-left py-3 text-[#5A6B6A] font-medium capitalize"
+                  className="block w-full text-left py-3 text-[#557089] hover:text-[#359EAC] font-medium capitalize"
                 >
                   {item}
                 </button>
               ))}
               <Button
                 onClick={() => openWhatsApp()}
-                className="w-full bg-[#00C2B5] hover:bg-[#00A99D] text-white rounded-full"
+                className="w-full bg-[#359EAC] hover:bg-[#0CAC9C] text-white rounded-full"
               >
                 <MessageCircle className="w-4 h-4 mr-2" />
                 Comprar en WhatsApp
@@ -498,17 +511,9 @@ function App() {
             - Columna izquierda: texto, CTAs y badges
             - Columna derecha: imagen del producto + stats flotantes
       ====================================================== */}
-      <section id="hero" ref={heroRef} className="relative min-h-screen pt-20 bg-gradient-radial overflow-hidden">
+      <section id="hero" ref={heroRef} className="relative min-h-screen pt-20 bg-[#F8FAFB] overflow-hidden">
 
-        {/* ELEMENTOS DECORATIVOS DE FONDO:
-            Círculos difuminados (blur-3xl) que crean el efecto de luz suave.
-            pointer-events-none → no interfieren con clics del usuario */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-40 left-10 w-96 h-96 bg-[#00C2B5]/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-20 right-10 w-80 h-80 bg-[#00C2B5]/5 rounded-full blur-3xl" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-[#E0F7F5]/50 to-transparent rounded-full" />
-        </div>
-
+        {/* Fondo limpio */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Grid: 1 columna en móvil, 2 columnas en desktop */}
           <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-80px)]">
@@ -517,15 +522,15 @@ function App() {
             <div className="text-center lg:text-left pt-12 lg:pt-0">
 
               {/* Badge de categoría con estrella (animación fade-in desde App.css) */}
-              <div className="inline-flex items-center gap-2 bg-[#E0F7F5] text-[#00A99D] px-4 py-2 rounded-full text-sm font-medium mb-6 animate-fade-in">
-                <Star className="w-4 h-4 fill-[#00C2B5]" />
+              <div className="inline-flex items-center gap-2 bg-[#359EAC]/10 text-[#359EAC] border border-[#359EAC]/20 px-4 py-2 rounded-full text-sm font-medium mb-6 animate-fade-in">
+                <Star className="w-4 h-4 fill-[#0CAC9C]" />
                 Tecnología de Punta en Purificación
               </div>
 
               {/* H1: título principal de la página
                   animate-slide-up + animationDelay → entra desde abajo con retraso */}
               <h1
-                className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#1A2B2A] leading-tight mb-6 animate-slide-up"
+                className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#102842] leading-tight mb-6 animate-slide-up"
                 style={{ animationDelay: '0.1s' }}
               >
                 Purifica tu Vida con{' '}
@@ -535,7 +540,7 @@ function App() {
 
               {/* Subtítulo descriptivo */}
               <p
-                className="text-lg text-[#5A6B6A] mb-8 max-w-xl mx-auto lg:mx-0 animate-slide-up"
+                className="text-lg text-[#557089] mb-8 max-w-xl mx-auto lg:mx-0 animate-slide-up"
                 style={{ animationDelay: '0.2s' }}
               >
                 Elimina olores, desinfecta agua, verduras y superficies sin químicos.
@@ -550,7 +555,7 @@ function App() {
                 {/* Botón primario: navega a la sección de productos */}
                 <Button
                   onClick={() => scrollToSection('productos')}
-                  className="bg-[#00C2B5] hover:bg-[#00A99D] text-white px-8 py-6 text-base font-semibold rounded-full shadow-glow transition-all duration-300 hover:scale-105"
+                  className="bg-[#359EAC] hover:bg-[#0CAC9C] text-white px-8 py-6 text-base font-semibold rounded-full shadow-glow transition-all duration-300 hover:scale-105"
                 >
                   Ver Modelos
                   <ArrowRight className="ml-2 w-5 h-5" />
@@ -559,7 +564,7 @@ function App() {
                 <Button
                   onClick={() => scrollToSection('beneficios')}
                   variant="outline"
-                  className="border-2 border-[#00C2B5] text-[#00C2B5] hover:bg-[#E0F7F5] px-8 py-6 text-base font-semibold rounded-full transition-all duration-300"
+                  className="border-2 border-[#359EAC] text-[#359EAC] hover:bg-[#359EAC]/10 px-8 py-6 text-base font-semibold rounded-full transition-all duration-300"
                 >
                   Saber Más
                 </Button>
@@ -579,10 +584,10 @@ function App() {
                 ].map((badge, index) => (
                   <div
                     key={index}
-                    className="flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-soft border border-[#E0F7F5]"
+                    className="flex items-center gap-2 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full shadow-soft border border-[#7BA7B7]/25"
                   >
-                    <span className="text-[#00C2B5]">{badge.icon}</span>
-                    <span className="text-sm font-medium text-[#1A2B2A]">{badge.text}</span>
+                    <span className="text-[#0CAC9C]">{badge.icon}</span>
+                    <span className="text-sm font-medium text-[#102842]">{badge.text}</span>
                   </div>
                 ))}
               </div>
@@ -606,12 +611,12 @@ function App() {
                 style={{ animationDelay: '0.5s' }}
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-gradient-teal rounded-xl flex items-center justify-center">
+                  <div className="w-12 h-12 bg-[#359EAC] rounded-xl flex items-center justify-center shadow-sm">
                     <CheckCircle2 className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <p className="font-bold text-[#1A2B2A] text-lg">Máxima</p>
-                    <p className="text-sm text-[#5A6B6A]">Eficacia</p>
+                    <p className="font-bold text-[#102842] text-lg">Máxima</p>
+                    <p className="text-sm text-[#557089]">Eficacia</p>
                   </div>
                 </div>
               </div>
@@ -622,12 +627,12 @@ function App() {
                 style={{ animationDelay: '0.6s' }}
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-[#E0F7F5] rounded-xl flex items-center justify-center">
-                    <Clock className="w-6 h-6 text-[#00C2B5]" />
+                  <div className="w-12 h-12 bg-[#359EAC]/10 rounded-xl flex items-center justify-center">
+                    <Clock className="w-6 h-6 text-[#0CAC9C]" />
                   </div>
                   <div>
-                    <p className="font-bold text-[#1A2B2A] text-lg">Duración</p>
-                    <p className="text-sm text-[#5A6B6A]">Ciclo Rápido</p>
+                    <p className="font-bold text-[#102842] text-lg">Duración</p>
+                    <p className="text-sm text-[#557089]">Ciclo Rápido</p>
                   </div>
                 </div>
               </div>
@@ -652,13 +657,13 @@ function App() {
           {/* Encabezado animado: visible cuando visibleSections incluye 'beneficios' */}
           <div className={`text-center mb-16 transition-all duration-700 ${visibleSections.has('beneficios') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}>
-            <Badge className="mb-4 bg-[#E0F7F5] text-[#00A99D] hover:bg-[#E0F7F5] px-4 py-1.5 text-sm font-medium">
+            <Badge className="mb-4 bg-[#359EAC]/10 text-[#359EAC] border border-[#359EAC]/20 hover:bg-[#359EAC]/15 px-4 py-1.5 text-sm font-medium">
               Beneficios
             </Badge>
-            <h2 className="text-3xl lg:text-5xl font-bold text-[#1A2B2A] mb-4">
+            <h2 className="text-3xl lg:text-5xl font-bold text-[#102842] mb-4">
               Tres Soluciones en Un Solo <span className="text-gradient">Dispositivo</span>
             </h2>
-            <p className="text-lg text-[#5A6B6A] max-w-2xl mx-auto">
+            <p className="text-lg text-[#557089] max-w-2xl mx-auto">
               Nuestros generadores de ozono ofrecen múltiples aplicaciones para
               mantener tu hogar limpio, seguro y saludable.
             </p>
@@ -669,18 +674,19 @@ function App() {
             {BENEFICIOS.map((beneficio, index) => (
               <Card
                 key={index}
-                className={`group overflow-hidden hover-lift border-0 shadow-soft bg-gradient-to-br ${beneficio.color} transition-all duration-700 ${visibleSections.has('beneficios') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                  }`}
+                className={`group overflow-hidden hover-lift border border-[#EBE9EA] shadow-soft bg-white transition-all duration-700 ${visibleSections.has('beneficios') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
                 // Retraso escalonado: tarjeta 0 → 0ms, tarjeta 1 → 100ms, tarjeta 2 → 200ms
                 style={{ transitionDelay: `${index * 100}ms` }}
               >
                 <CardContent className="p-8">
                   {/* Caja del ícono: al hover del card (group-hover) gana shadow glow */}
-                  <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-soft group-hover:shadow-glow transition-shadow duration-300">
-                    {beneficio.icon}
+                  <div className="w-16 h-16 bg-[#359EAC]/10 rounded-2xl flex items-center justify-center mb-6 shadow-sm group-hover:bg-[#359EAC] transition-all duration-300">
+                    <div className="text-[#359EAC] group-hover:text-white transition-colors duration-300">
+                      {beneficio.icon}
+                    </div>
                   </div>
-                  <h3 className="text-xl font-bold text-[#1A2B2A] mb-3">{beneficio.titulo}</h3>
-                  <p className="text-[#5A6B6A] leading-relaxed">{beneficio.descripcion}</p>
+                  <h3 className="text-xl font-bold text-[#102842] mb-3">{beneficio.titulo}</h3>
+                  <p className="text-[#557089] leading-relaxed">{beneficio.descripcion}</p>
                 </CardContent>
               </Card>
             ))}
@@ -710,19 +716,19 @@ function App() {
           │  $PRECIO MXN    [Cotizar →]  │ ← precio y botón con accentColor
           └──────────────────────────────┘
       ====================================================== */}
-      <section id="productos" className="py-24 bg-[#F5F7FA] relative">
+      <section id="productos" className="py-24 bg-[#F4F7F9] relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Encabezado animado */}
           <div className={`text-center mb-16 transition-all duration-700 ${visibleSections.has('productos') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}>
-            <Badge className="mb-4 bg-[#E0F7F5] text-[#00A99D] hover:bg-[#E0F7F5] px-4 py-1.5 text-sm font-medium">
+            <Badge className="mb-4 bg-[#359EAC]/10 text-[#359EAC] border border-[#359EAC]/20 hover:bg-[#359EAC]/15 px-4 py-1.5 text-sm font-medium">
               Productos
             </Badge>
-            <h2 className="text-3xl lg:text-5xl font-bold text-[#1A2B2A] mb-4">
+            <h2 className="text-3xl lg:text-5xl font-bold text-[#102842] mb-4">
               Elige tu <span className="text-gradient">Ozon3 Ideal</span>
             </h2>
-            <p className="text-lg text-[#5A6B6A] max-w-2xl mx-auto">
+            <p className="text-lg text-[#557089] max-w-2xl mx-auto">
               Tenemos el modelo perfecto para tus necesidades, desde uso doméstico hasta profesional.
             </p>
           </div>
@@ -793,7 +799,7 @@ function App() {
 
                   {/* Fila: nombre del producto + badge de potencia */}
                   <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-xl font-bold text-[#1A2B2A]">{producto.nombre}</h3>
+                    <h3 className="text-xl font-bold text-[#102842]">{producto.nombre}</h3>
                     {/* Badge de potencia (ej: 10W) con color de acento */}
                     <span
                       className="text-xs font-bold px-2 py-1 rounded"
@@ -808,7 +814,7 @@ function App() {
                   </div>
 
                   {/* Descripción: min-h garantiza altura mínima para alinear los botones */}
-                  <p className="text-[#5A6B6A] text-sm mb-4 min-h-[40px]">
+                  <p className="text-[#557089] text-sm mb-4 min-h-[40px]">
                     {producto.descripcion}
                   </p>
 
@@ -818,7 +824,7 @@ function App() {
                     {producto.caracteristicas.map((caracteristica, i) => (
                       <span
                         key={i}
-                        className="text-xs text-[#5A6B6A] bg-[#F5F7FA] px-2 py-1 rounded-full border border-[#E0F7F5]"
+                        className="text-xs text-[#557089] bg-[#EBE9EA]/70 px-2 py-1 rounded-full border border-[#7BA7B7]/25"
                       >
                         {caracteristica}
                       </span>
@@ -826,42 +832,35 @@ function App() {
                   </div>
 
                   {/* FILA INFERIOR: precio y botón Cotizar */}
-                  <div className="flex items-center justify-between pt-4 border-t border-[#E0F7F5]">
-
-                    {/* Precio con color de acento del producto */}
-                    <div className="flex flex-col">
-                      {/* Precio de mayoreo (a partir de 3 piezas) */}
-                      {producto.precioMayoreo && (
-                        <div className="flex items-center gap-1 opacity-75 mb-[-2px]">
-                          <span className="text-xs text-[#5A6B6A] font-semibold">
-                            A partir de 3 piezas:
-                          </span>
-                          <span className="text-xs text-[#5A6B6A] font-bold">
-                            {producto.precioMayoreo}
-                          </span>
-                          <span className="text-[10px] text-[#5A6B6A] font-bold uppercase">MXN</span>
-                        </div>
-                      )}
-                      <div className="flex items-center">
+                  <div className="pt-4 border-t border-[#EBE9EA]">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-baseline">
                         <span
                           className="text-2xl font-bold"
                           style={{ color: producto.accentColor }}
                         >
                           {producto.precio}
                         </span>
-                        <span className="text-[10px] font-bold text-[#5A6B6A] uppercase ml-1">MXN</span>
+                        <span className="text-[10px] font-bold text-[#557089] uppercase ml-1">MXN</span>
                       </div>
+
+                      {/* Botón Cotizar: abre WhatsApp con el nombre del producto en el mensaje */}
+                      <Button
+                        onClick={() => openWhatsApp(`Hola, me interesa comprar el ${producto.nombre}`)}
+                        className="text-white rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 hover:opacity-90 hover:shadow-lg"
+                        style={{ backgroundColor: producto.accentColor }}
+                      >
+                        <MessageCircle className="w-4 h-4 mr-2" />
+                        Comprar Ahora
+                      </Button>
                     </div>
 
-                    {/* Botón Cotizar: abre WhatsApp con el nombre del producto en el mensaje */}
-                    <Button
-                      onClick={() => openWhatsApp(`Hola, me interesa comprar el ${producto.nombre}`)}
-                      className="text-white rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 hover:opacity-90 hover:shadow-lg"
-                      style={{ backgroundColor: producto.accentColor }}
-                    >
-                      <MessageCircle className="w-4 h-4 mr-2" />
-                      Comprar Ahora
-                    </Button>
+                    {/* Precio de mayoreo: abajo del precio principal */}
+                    {producto.precioMayoreo && (
+                      <div className="text-xs text-[#557089] opacity-80 font-medium">
+                        Precio de mayoreo: <span className="font-bold text-[#102842]">{producto.precioMayoreo}</span> <span className="text-[10px] font-bold text-[#557089] uppercase">MXN</span>
+                      </div>
+                    )}
                   </div>
                 </CardContent>
               </Card>
@@ -897,13 +896,13 @@ function App() {
 
             {/* COLUMNA IZQUIERDA: recomendaciones de seguridad */}
             <div>
-              <Badge className="mb-4 bg-[#E0F7F5] text-[#00A99D] hover:bg-[#E0F7F5] px-4 py-1.5 text-sm font-medium">
+              <Badge className="mb-4 bg-[#359EAC]/10 text-[#359EAC] border border-[#359EAC]/20 hover:bg-[#359EAC]/15 px-4 py-1.5 text-sm font-medium">
                 Seguridad
               </Badge>
-              <h2 className="text-3xl lg:text-5xl font-bold text-[#1A2B2A] mb-6">
+              <h2 className="text-3xl lg:text-5xl font-bold text-[#102842] mb-6">
                 Uso Responsable y <span className="text-gradient">Seguro</span>
               </h2>
-              <p className="text-lg text-[#5A6B6A] mb-8">
+              <p className="text-lg text-[#557089] mb-8">
                 El ozono es un poderoso oxidante natural. Sigue estas recomendaciones
                 para un uso seguro y efectivo.
               </p>
@@ -915,10 +914,10 @@ function App() {
                   {SEGURIDAD_ITEMS.map((item, index) => (
                     <li key={index} className="flex items-start gap-3">
                       {/* Ícono de check en círculo teal */}
-                      <div className="w-6 h-6 bg-gradient-teal rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <div className="w-6 h-6 bg-[#359EAC] rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 shadow-sm">
                         <CheckCircle2 className="w-4 h-4 text-white" />
                       </div>
-                      <span className="text-[#1A2B2A] font-medium">{item}</span>
+                      <span className="text-[#102842] font-medium">{item}</span>
                     </li>
                   ))}
                 </ul>
@@ -941,13 +940,7 @@ function App() {
           Dos botones: WhatsApp (primario) y Email (secundario).
           sonar-pulse: animación de pulso definida en App.css.
       ====================================================== */}
-      <section className="py-24 bg-gradient-teal relative overflow-hidden">
-
-        {/* Elementos decorativos de fondo (círculos difuminados blancos) */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 right-0 w-80 h-80 bg-white/5 rounded-full blur-3xl" />
-        </div>
+      <section className="py-24 bg-[#359EAC] relative overflow-hidden">
 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white relative z-10">
           <h2 className="text-3xl lg:text-5xl font-bold mb-6">
@@ -958,22 +951,19 @@ function App() {
             seguro y saludable con Ozon3.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-
-            {/* Botón primario: blanco con texto teal, animación de pulso */}
+            {/* Botón primario: blanco con texto navy corporativo */}
             <Button
               onClick={() => openWhatsApp()}
-              variant="outline"
-              className="bg-white text-[#00C2B5] hover:bg-white/10 px-8 py-6 text-base font-semibold rounded-full transition-all duration-300"
+              className="bg-white text-[#102842] hover:bg-[#EBE9EA] px-8 py-6 text-base font-semibold rounded-full shadow-lg transition-all duration-300 hover:scale-105"
             >
               <MessageCircle className="w-5 h-5 mr-2" />
               Comprar vía WhatsApp
             </Button>
 
-            {/* Botón secundario: borde blanco, abre cliente de correo */}
+            {/* Botón secundario: abre modal de correo */}
             <Button
-              onClick={() => window.open(`mailto:${CONTACT_INFO.email}`, '_blank')}
-              variant="outline"
-              className="border-2 border-white text-[#00C2B5] hover:bg-white/10 px-8 py-6 text-base font-semibold rounded-full transition-all duration-300"
+              onClick={() => setIsEmailModalOpen(true)}
+              className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-[#102842] px-8 py-6 text-base font-semibold rounded-full shadow-md transition-all duration-300 hover:scale-105 cursor-pointer"
             >
               <Mail className="w-5 h-5 mr-2" />
               Envíanos un Email
@@ -982,16 +972,15 @@ function App() {
         </div>
       </section>
 
-
       {/* ======================================================
           SECCIÓN: CONTACTO & FOOTER
           ======================================================
-          Fondo oscuro (#1A2B2A).
+          Fondo oscuro (#102842).
           Dividida en dos partes:
             1. Contact Info: 3 columnas con tel, email y WA
             2. Footer: logo, descripción, links rápidos y legal
       ====================================================== */}
-      <section id="contacto" className="bg-[#1A2B2A] text-white">
+      <section id="contacto" className="bg-[#102842] text-white">
 
         {/* PARTE 1: DATOS DE CONTACTO */}
         <div className="py-16 border-b border-white/10">
@@ -1000,32 +989,36 @@ function App() {
 
               {/* Instagram */}
               <div className="flex items-center gap-4">
-                <div className="w-14 h-14 bg-[#00C2B5]/20 rounded-2xl flex items-center justify-center">
-                  <Instagram className="w-6 h-6 text-[#00C2B5]" />
+                <div className="w-14 h-14 bg-[#359EAC]/20 border border-[#359EAC]/30 rounded-2xl flex items-center justify-center">
+                  <Instagram className="w-6 h-6 text-[#0CAC9C]" />
                 </div>
                 <div>
                   <p className="text-white/60 text-sm">Instagram</p>
-                  <a href={CONTACT_INFO.instagram_link} target="_blank" rel="noopener noreferrer" className="font-semibold hover:text-[#00C2B5] transition-colors">
+                  <a href={CONTACT_INFO.instagram_link} target="_blank" rel="noopener noreferrer" className="font-semibold hover:text-[#0CAC9C] transition-colors">
                     {CONTACT_INFO.instagram}
                   </a>
                 </div>
               </div>
 
               {/* Email */}
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 bg-[#00C2B5]/20 rounded-2xl flex items-center justify-center">
-                  <Mail className="w-6 h-6 text-[#00C2B5]" />
+              <div
+                className="flex items-center gap-4 cursor-pointer group"
+                onClick={() => setIsEmailModalOpen(true)}
+                title="Haz clic para ver y copiar el correo"
+              >
+                <div className="w-14 h-14 bg-[#359EAC]/20 border border-[#359EAC]/30 rounded-2xl flex items-center justify-center group-hover:bg-[#359EAC] transition-all duration-300">
+                  <Mail className="w-6 h-6 text-[#0CAC9C] group-hover:text-white transition-colors" />
                 </div>
                 <div>
-                  <p className="text-white/60 text-sm">Email</p>
-                  <p className="font-semibold">{CONTACT_INFO.email}</p>
+                  <p className="text-white/60 text-sm">Email (clic para copiar)</p>
+                  <p className="font-semibold group-hover:text-[#0CAC9C] transition-colors">{CONTACT_INFO.email}</p>
                 </div>
               </div>
 
               {/* WhatsApp */}
               <div className="flex items-center gap-4">
-                <div className="w-14 h-14 bg-[#00C2B5]/20 rounded-2xl flex items-center justify-center">
-                  <MessageCircle className="w-6 h-6 text-[#00C2B5]" />
+                <div className="w-14 h-14 bg-[#359EAC]/20 border border-[#359EAC]/30 rounded-2xl flex items-center justify-center">
+                  <MessageCircle className="w-6 h-6 text-[#0CAC9C]" />
                 </div>
                 <div>
                   <p className="text-white/60 text-sm">WhatsApp</p>
@@ -1044,13 +1037,14 @@ function App() {
               {/* COLUMNA DE MARCA (ocupa 2 columnas):
                   Logo, descripción de la empresa y redes sociales */}
               <div className="md:col-span-2">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-10 h-10 bg-gradient-teal rounded-xl flex items-center justify-center">
-                    <span className="text-white font-bold text-lg">O₃</span>
+                <div className="flex items-center gap-3 mb-4">
+                  <img src="/logo.png" alt="Ozon3" className="h-10 w-auto object-contain" />
+                  <div className="flex flex-col">
+                    <span className="font-bankgothic text-2xl font-bold text-white tracking-widest leading-none uppercase">OZON3</span>
+                    <span className="font-bankgothic text-[9px] font-medium text-[#7BA7B7] tracking-[0.22em] uppercase mt-1">Pure Air & Surface</span>
                   </div>
-                  <span className="text-2xl font-bold">Ozon3</span>
                 </div>
-                <p className="text-white/60 max-w-sm mb-6">
+                <p className="text-[#7BA7B7] max-w-sm mb-6">
                   Líderes en tecnología de ozono para hogares y negocios.
                   Purificamos tu mundo de forma natural y efectiva.
                 </p>
@@ -1066,7 +1060,7 @@ function App() {
                       href={social.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center hover:bg-[#00C2B5] transition-colors duration-300"
+                      className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center hover:bg-[#0CAC9C] transition-colors duration-300"
                       title={social.label}
                     >
                       {social.icon}
@@ -1083,7 +1077,7 @@ function App() {
                     <li key={item}>
                       <button
                         onClick={() => scrollToSection(item)}
-                        className="hover:text-[#00C2B5] transition-colors capitalize"
+                        className="hover:text-[#0CAC9C] transition-colors capitalize"
                       >
                         {item}
                       </button>
@@ -1099,7 +1093,7 @@ function App() {
                 <ul className="space-y-3 text-white/60">
                   {['Política de Privacidad', 'Términos de Uso'].map(item => (
                     <li key={item}>
-                      <a href="#" className="hover:text-[#00C2B5] transition-colors">{item}</a>
+                      <a href="#" className="hover:text-[#0CAC9C] transition-colors">{item}</a>
                     </li>
                   ))}
                 </ul>
@@ -1110,7 +1104,7 @@ function App() {
             <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
               <p className="text-white/40 text-sm">© 2024 Ozon3. Todos los derechos reservados.</p>
               <p className="text-white/40 text-sm flex items-center gap-2">
-                Hecho con <span className="text-[#00C2B5]">♥</span> para un mundo más limpio
+                Hecho con <span className="text-[#0CAC9C]">♥</span> para un mundo más limpio
               </p>
             </div>
           </div>
@@ -1135,6 +1129,95 @@ function App() {
         <MessageCircle className="w-7 h-7 text-white" />
       </button>
 
+      {/* ======================================================
+          MODAL / POP-UP: COPIAR CORREO ELECTRÓNICO
+          ====================================================== */}
+      {isEmailModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#102842]/70 backdrop-blur-sm animate-fade-in"
+          onClick={() => setIsEmailModalOpen(false)}
+        >
+          <div
+            className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl relative border border-[#EBE9EA] text-[#102842] animate-slide-up"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Botón Cerrar (X) */}
+            <button
+              onClick={() => setIsEmailModalOpen(false)}
+              className="absolute top-5 right-5 w-9 h-9 rounded-full bg-[#F4F7F9] hover:bg-[#EBE9EA] flex items-center justify-center text-[#557089] hover:text-[#102842] transition-colors cursor-pointer"
+              aria-label="Cerrar ventana"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {/* Cabecera del modal */}
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 bg-[#359EAC]/15 rounded-2xl flex items-center justify-center text-[#359EAC]">
+                <Mail className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-[#102842]">Contáctanos por Email</h3>
+                <p className="text-xs text-[#557089]">Atención directa Ozon3</p>
+              </div>
+            </div>
+
+            <p className="text-sm text-[#557089] mb-5 leading-relaxed">
+              Copia nuestra dirección oficial de contacto:
+            </p>
+
+            {/* Campo de texto con el correo y botón Copiar */}
+            <div className="flex items-center gap-2 bg-[#F8FAFB] border-2 border-[#7BA7B7]/30 rounded-2xl p-2 mb-4 focus-within:border-[#359EAC] transition-all">
+              <input
+                type="text"
+                readOnly
+                value={CONTACT_INFO.email}
+                className="bg-transparent text-sm sm:text-base font-semibold text-[#102842] px-3 py-1 flex-1 outline-none select-all"
+              />
+              <Button
+                onClick={handleCopyEmail}
+                className={`rounded-xl px-4 py-2 text-xs sm:text-sm font-semibold transition-all duration-300 flex items-center gap-1.5 shadow-sm cursor-pointer ${
+                  copiedEmail
+                    ? 'bg-[#0CAC9C] text-white hover:bg-[#0CAC9C]'
+                    : 'bg-[#359EAC] hover:bg-[#0CAC9C] text-white'
+                }`}
+              >
+                {copiedEmail ? (
+                  <>
+                    <Check className="w-4 h-4" />
+                    <span>¡Copiado!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-4 h-4" />
+                    <span>Copiar</span>
+                  </>
+                )}
+              </Button>
+            </div>
+
+            {/* Mensaje de confirmación cuando se copia */}
+            {copiedEmail && (
+              <p className="text-xs text-[#0CAC9C] font-semibold mb-4 animate-fade-in flex items-center gap-1">
+                <Check className="w-3.5 h-3.5" /> Correo copiado exitosamente al portapapeles.
+              </p>
+            )}
+
+            {/* Alternativa WhatsApp */}
+            <div className="pt-3 border-t border-[#EBE9EA]">
+              <button
+                onClick={() => {
+                  setIsEmailModalOpen(false)
+                  openWhatsApp()
+                }}
+                className="w-full text-center py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold bg-[#F4F7F9] hover:bg-[#EBE9EA] text-[#557089] hover:text-[#102842] transition-colors cursor-pointer flex items-center justify-center gap-2"
+              >
+                <MessageCircle className="w-4 h-4 text-[#25D366]" />
+                Prefiero WhatsApp
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

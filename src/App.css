@@ -1,4 +1,4 @@
-/* Ozon3 App Styles */
+/* Ozon3 App Styles - Official Brand Palette */
 
 /* Smooth scroll behavior */
 html {
@@ -7,8 +7,8 @@ html {
 
 /* Selection color */
 ::selection {
-  background: rgba(0, 194, 181, 0.3);
-  color: #1A2B2A;
+  background: rgba(53, 158, 172, 0.3);
+  color: #102842;
 }
 
 /* Custom scrollbar */
@@ -17,16 +17,16 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: #F5F7FA;
+  background: #EBE9EA;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #00C2B5;
+  background: #359EAC;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #00A99D;
+  background: #0CAC9C;
 }
 
 /* Animation utilities */
@@ -53,7 +53,6 @@ html {
 }
 
 @keyframes float {
-
   0%,
   100% {
     transform: translateY(0);
@@ -65,28 +64,27 @@ html {
 }
 
 @keyframes pulse-glow {
-
   0%,
   100% {
-    box-shadow: 0 0 20px rgba(0, 194, 181, 0.3);
+    box-shadow: 0 0 20px rgba(12, 172, 156, 0.3);
   }
 
   50% {
-    box-shadow: 0 0 40px rgba(0, 194, 181, 0.6);
+    box-shadow: 0 0 40px rgba(12, 172, 156, 0.6);
   }
 }
 
 @keyframes sonar-pulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(0, 194, 181, 0.4);
+    box-shadow: 0 0 0 0 rgba(12, 172, 156, 0.4);
   }
 
   70% {
-    box-shadow: 0 0 0 20px rgba(0, 194, 181, 0);
+    box-shadow: 0 0 0 20px rgba(12, 172, 156, 0);
   }
 
   100% {
-    box-shadow: 0 0 0 0 rgba(0, 194, 181, 0);
+    box-shadow: 0 0 0 0 rgba(12, 172, 156, 0);
   }
 }
 
@@ -112,16 +110,16 @@ html {
 
 /* Glass effect */
 .glass {
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(123, 167, 183, 0.25);
 }
 
 /* Hover lift effect */
@@ -131,30 +129,34 @@ html {
 
 .hover-lift:hover {
   transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0, 194, 181, 0.15);
+  box-shadow: 0 20px 40px rgba(16, 40, 66, 0.12);
 }
 
 /* Shadow utilities */
 .shadow-soft {
-  box-shadow: 0 4px 20px rgba(0, 194, 181, 0.1);
+  box-shadow: 0 4px 20px rgba(16, 40, 66, 0.08);
 }
 
 .shadow-glow {
-  box-shadow: 0 0 40px rgba(0, 194, 181, 0.3);
+  box-shadow: 0 0 35px rgba(12, 172, 156, 0.35);
 }
 
 /* Gradient backgrounds */
 .bg-gradient-teal {
-  background: linear-gradient(135deg, #00C2B5 0%, #00A99D 100%);
+  background: #359EAC;
+}
+
+.bg-gradient-brand {
+  background: #359EAC;
 }
 
 .bg-gradient-radial {
-  background: radial-gradient(ellipse at center top, #E0F7F5 0%, #FFFFFF 60%);
+  background: #F8FAFB;
 }
 
 /* Text gradient */
 .text-gradient {
-  background: linear-gradient(135deg, #00C2B5 0%, #00A99D 100%);
+  background: linear-gradient(135deg, #102842 0%, #359EAC 55%, #0CAC9C 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -163,24 +165,6 @@ html {
 /* Button magnetic effect placeholder */
 .btn-magnetic {
   transition: transform 0.2s ease-out;
-}
-
-
-/* Wholesale highlight */
-.wholesale-highlight {
-  display: inline-block;
-  background: linear-gradient(135deg, #FFD93D 0%, #FF8400 100%);
-  color: #000;
-  padding: 0.5rem 1.2rem;
-  font-weight: 900;
-  border-radius: 12px;
-  transform: rotate(-8deg);
-  box-shadow: 0 10px 25px rgba(255, 132, 0, 0.4);
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  border: 3px solid white;
-  animation: float 4s ease-in-out infinite;
-  z-index: 10;
 }
 
 /* Responsive adjustments */
