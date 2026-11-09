@@ -129,7 +129,8 @@ const PRODUCTOS = [
     nombre: 'Ozon3 Basic',
     potencia: '10W',
     descripcion: 'El esencial para autos, closets y espacios reducidos. Control manual, 1000mg/h. Incluye kit para agua.',
-    precio: '$699',
+    precio: '$849',
+    precioMayoreo: '$699',
     caracteristicas: ['1000 mg/h', 'Control Manual', 'Kit de Agua', 'Portátil'],
     imagen: '/product-basic.png',
     popular: false,
@@ -144,8 +145,8 @@ const PRODUCTOS = [
     nombre: 'Ozon3 MinLock',
     potencia: '20W',
     descripcion: 'Programa tus ciclos de limpieza y despreocúpate. Ideal para habitaciones, baños, cocina y desinfección de verduras.',
-    precio: '$899',
-    precioAnterior: '$1199',
+    precio: '$1199',
+    precioMayoreo: '$999',
     caracteristicas: ['2000 mg/h', 'Temporizador Inteligente', 'Desinfección de Alimentos', 'Uso Doméstico'],
     imagen: '/product-timer.png',
     popular: true,  // ← Este producto muestra el badge "Más Vendido"
@@ -159,7 +160,8 @@ const PRODUCTOS = [
     nombre: 'Ozon3 HydroFlow',
     potencia: '25W',
     descripcion: 'Para Flujo de Agua en lavadoras y mangueras. Lava ropa en frío y desinfecta pisos y superficies amplias.',
-    precio: '$7199',
+    precio: '$6299',
+    precioMayoreo: '$5599',
     caracteristicas: ['Flujo Continuo', 'Conexión Directa', 'Pantalla LED', 'Uso Profesional'],
     imagen: '/product-hydro.png',
     popular: false,
@@ -828,13 +830,16 @@ function App() {
 
                     {/* Precio con color de acento del producto */}
                     <div className="flex flex-col">
-                      {/* Precio anterior (tacha) si existe */}
-                      {producto.precioAnterior && (
-                        <div className="flex items-center gap-1 opacity-60 mb-[-4px]">
-                          <span className="text-sm text-[#5A6B6A] line-through font-black">
-                            {producto.precioAnterior}
+                      {/* Precio de mayoreo (a partir de 3 piezas) */}
+                      {producto.precioMayoreo && (
+                        <div className="flex items-center gap-1 opacity-75 mb-[-2px]">
+                          <span className="text-xs text-[#5A6B6A] font-semibold">
+                            A partir de 3 piezas:
                           </span>
-                          <span className="text-[10px] text-[#5A6B6A] line-through font-black uppercase">MXN</span>
+                          <span className="text-xs text-[#5A6B6A] font-bold">
+                            {producto.precioMayoreo}
+                          </span>
+                          <span className="text-[10px] text-[#5A6B6A] font-bold uppercase">MXN</span>
                         </div>
                       )}
                       <div className="flex items-center">
@@ -917,17 +922,6 @@ function App() {
                     </li>
                   ))}
                 </ul>
-
-                {/* Nota al pie: incluye Manual de Usuario */}
-                <div className="mt-6 pt-6 border-t border-[#E0F7F5] flex items-center gap-3">
-                  <div className="w-10 h-10 bg-[#E0F7F5] rounded-xl flex items-center justify-center">
-                    <Shield className="w-5 h-5 text-[#00C2B5]" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-[#5A6B6A]">Incluye</p>
-                    <p className="font-semibold text-[#1A2B2A]">Manual de Usuario Detallado</p>
-                  </div>
-                </div>
               </div>
             </div>
 
@@ -1103,7 +1097,7 @@ function App() {
               <div>
                 <h4 className="font-semibold mb-4">Legal</h4>
                 <ul className="space-y-3 text-white/60">
-                  {['Política de Privacidad', 'Términos de Uso', 'Garantía', 'Envíos'].map(item => (
+                  {['Política de Privacidad', 'Términos de Uso'].map(item => (
                     <li key={item}>
                       <a href="#" className="hover:text-[#00C2B5] transition-colors">{item}</a>
                     </li>
