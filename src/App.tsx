@@ -140,7 +140,7 @@ const PRODUCTOS = [
   },
   {
     id: 'timer',
-    nombre: 'Ozon3 MinLock',
+    nombre: 'Ozon3 CycloTimer',
     potencia: '20W',
     descripcion: 'Programa tus ciclos de limpieza y despreocúpate. Ideal para habitaciones, baños, cocina y desinfección de verduras.',
     precio: '$1,199',
